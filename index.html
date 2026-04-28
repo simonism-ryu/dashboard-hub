@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OGK Dashboard Hub</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+  :root {
+    --bg-base: #E8EEF5;
+    --text-main: #334155;
+    --text-muted: #64748b;
+    --accent: #38bdf8;
+    --ogk-dark: #041527;
+    --ogk-navy: #002D4B;
+    --ogk-cyan: #009AB8;
+    --ogk-lime: #B8D544;
+    --bg-soft: #E2E8F0;
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-bg-inner: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-border-inner: rgba(255, 255, 255, 0.6);
+    --glass-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    --blur: blur(20px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .mesh-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background-color: var(--bg-base);
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: float 20s infinite ease-in-out alternate;
+  }
+  .blob-1 { top: -10%; left: -5%; width: 50vw; height: 50vw; background-color: var(--ogk-navy); animation-delay: -2s; }
+  .blob-2 { bottom: -10%; right: -5%; width: 40vw; height: 40vw; background-color: var(--ogk-cyan); animation-delay: -5s; }
+  .blob-3 { top: 20%; right: 15%; width: 30vw; height: 30vw; background-color: var(--ogk-lime); opacity: 0.4; animation-delay: -8s; }
+  .blob-4 { bottom: 10%; left: 20%; width: 35vw; height: 35vw; background-color: var(--accent); opacity: 0.5; animation-delay: -12s; }
+  @keyframes float {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(5%, 5%) scale(1.1); }
+    100% { transform: translate(-5%, -5%) scale(0.9); }
+  }
+  .glass-container {
+    width: 92vw;
+    max-width: 1400px;
+    margin: 40px auto;
+    background: var(--glass-bg);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    box-shadow: var(--glass-shadow);
+    padding: 48px;
+    position: relative;
+    z-index: 10;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .logo-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+  }
+  .company-logo { height: 44px; width: auto; object-fit: contain; }
+  .logo-divider {
+    width: 1px; height: 28px;
+    background: rgba(15,23,42,0.15);
+  }
+  .logo-text {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ogk-dark);
+    letter-spacing: -0.01em;
+  }
+  .logo-text-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.5);
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border-inner);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .header-meta .material-icons-round { font-size: 16px; color: var(--ogk-cyan); }
+  .main-title-section {
+    margin-bottom: 32px;
+  }
+  .main-title {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #1e293b, #041527);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sub-title {
+    font-size: 16px;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 8px;
+  }
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .search-wrap {
+    position: relative;
+  }
+  .search-wrap .material-icons-round {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 20px;
+    pointer-events: none;
+  }
+  #search {
+    width: 100%;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid var(--glass-border-inner);
+    backdrop-filter: blur(8px);
+    color: var(--text-main);
+    font-size: 14px;
+    padding: 14px 18px 14px 48px;
+    border-radius: 16px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  #search:focus {
+    border-color: var(--ogk-cyan);
+    background: rgba(255,255,255,0.7);
+    box-shadow: 0 6px 20px rgba(0,154,184,0.12);
+  }
+  #search::placeholder { color: #94a3b8; }
+  .category-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--glass-border-inner);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+  .chip:hover {
+    background: rgba(255,255,255,0.75);
+    color: var(--ogk-navy);
+    transform: translateY(-1px);
+  }
+  .chip.active {
+    background: var(--ogk-navy);
+    border-color: var(--ogk-navy);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(0,45,75,0.25);
+  }
+  .chip .material-icons-round { font-size: 16px; }
+  .stats {
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .stats-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ogk-lime);
+  }
+  .category-section {
+    margin-bottom: 36px;
+  }
+  .category-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .category-title .material-icons-round {
+    font-size: 18px;
+    color: var(--ogk-cyan);
+  }
+  .category-count {
+    font-size: 12px;
+    background: rgba(255,255,255,0.6);
+    padding: 2px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border-inner);
+    color: var(--ogk-navy);
+    font-weight: 600;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .inner-card {
+    background: var(--glass-bg-inner);
+    border: 1px solid var(--glass-border-inner);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    min-height: 180px;
+    position: relative;
+    overflow: hidden;
+  }
+  .inner-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,154,184,0.08), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    border-radius: 24px;
+  }
+  .inner-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0, 45, 75, 0.12);
+    background: rgba(255, 255, 255, 0.78);
+    border-color: rgba(0,154,184,0.3);
+  }
+  .inner-card:hover::before { opacity: 1; }
+  .card-icon-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--ogk-cyan), var(--ogk-navy));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,154,184,0.25);
+  }
+  .card-icon.lime {
+    background: linear-gradient(135deg, var(--ogk-lime), #8aa734);
+    box-shadow: 0 4px 12px rgba(184,213,68,0.3);
+  }
+  .card-icon.navy {
+    background: linear-gradient(135deg, var(--ogk-navy), var(--ogk-dark));
+    box-shadow: 0 4px 12px rgba(4,21,39,0.3);
+  }
+  .card-icon .material-icons-round { font-size: 22px; }
+  .card-arrow-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    border: 1px solid var(--glass-border-inner);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.25s;
+  }
+  .inner-card:hover .card-arrow-icon {
+    background: var(--ogk-cyan);
+    color: #fff;
+    transform: translateX(2px);
+    box-shadow: 0 4px 12px rgba(0,154,184,0.3);
+  }
+  .card-arrow-icon .material-icons-round { font-size: 18px; }
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ogk-dark);
+    margin-bottom: 8px;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+  .card-desc {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 20px;
+  }
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.6);
+  }
+  .badge-glass {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 1);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ogk-cyan);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  }
+  .badge-glass .material-icons-round { font-size: 14px; }
+  .card-tag {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .empty {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+    background: var(--glass-bg-inner);
+    border-radius: 24px;
+    border: 1px solid var(--glass-border-inner);
+  }
+  .empty .material-icons-round {
+    font-size: 48px;
+    color: var(--ogk-cyan);
+    opacity: 0.5;
+    margin-bottom: 12px;
+  }
+  .footer {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.6);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .footer a { color: var(--ogk-navy); text-decoration: none; font-weight: 600; }
+  .footer a:hover { color: var(--ogk-cyan); }
+  .footer code {
+    background: rgba(255,255,255,0.6);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 11px;
+    color: var(--ogk-navy);
+  }
+  @media (max-width: 768px) {
+    .glass-container { padding: 28px 20px; margin: 16px auto; border-radius: 24px; }
+    .header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .main-title { font-size: 28px; }
+    .sub-title { font-size: 14px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mesh-background">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+
+<div class="glass-container">
+
+  <header class="header">
+    <div class="logo-box">
+      <img src="./OGK-logo.png" alt="OGK" class="company-logo" onerror="this.style.display='none'">
+      <div class="logo-divider"></div>
+      <div>
+        <div class="logo-text">OGK Dashboard Hub</div>
+        <div class="logo-text-sub">Business Automation Portal</div>
+      </div>
+    </div>
+    <div class="header-meta" id="headerMeta">
+      <span class="material-icons-round">update</span>
+      <span id="lastUpdated">Loading…</span>
+    </div>
+  </header>
+
+  <div class="main-title-section">
+    <h1 class="main-title">대시보드 허브</h1>
+    <p class="sub-title">업무 자동화 대시보드 통합 진입점 · Integrated Access Point for Automation Dashboards</p>
+  </div>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <span class="material-icons-round">search</span>
+      <input type="search" id="search" placeholder="대시보드 검색 (이름, 설명, 카테고리)">
+    </div>
+    <div class="category-chips" id="chips"></div>
+  </div>
+
+  <div class="stats">
+    <span class="stats-dot"></span>
+    <span id="stats">Loading…</span>
+  </div>
+
+  <main id="content"></main>
+
+  <div class="footer">
+    <span>한국오지케이 · 영업개발팀</span>
+    <span>·</span>
+    <a href="https://github.com/simonism-ryu" target="_blank">github.com/simonism-ryu</a>
+    <span>·</span>
+    <span>새 대시보드 추가는 <code>dashboards.md</code> 편집</span>
+  </div>
+</div>
+
+<script>
+const CATEGORY_ICONS = {
+  '영업/매출': { icon: 'trending_up', style: 'lime' },
+  '원가/BOM': { icon: 'account_tree', style: 'navy' },
+  '자동화 도구': { icon: 'smart_toy', style: 'default' },
+  '품질': { icon: 'verified', style: 'navy' },
+  '분석': { icon: 'analytics', style: 'default' },
+  '생산': { icon: 'precision_manufacturing', style: 'navy' },
+  'HEEK': { icon: 'visibility', style: 'lime' },
+  '기타': { icon: 'dashboard', style: 'default' }
+};
+const DEFAULT_ICON = { icon: 'dashboard', style: 'default' };
+
+let allData = [];
+let activeCategory = '전체';
+let searchTerm = '';
+
+function getCategoryMeta(cat) {
+  return CATEGORY_ICONS[cat] || DEFAULT_ICON;
+}
+
+async function loadDashboards() {
+  try {
+    const res = await fetch('./dashboards.md?t=' + Date.now());
+    const text = await res.text();
+    allData = parseMarkdown(text);
+    render();
+  } catch (e) {
+    document.getElementById('content').innerHTML =
+      '<div class="empty"><span class="material-icons-round">error_outline</span><div>dashboards.md 파일을 불러올 수 없습니다.<br>같은 폴더에 파일이 있는지 확인하세요.</div></div>';
+  }
+}
+
+function parseMarkdown(md) {
+  const items = [];
+  let currentCat = null;
+  const lines = md.split('\n');
+  let current = null;
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('## ')) {
+      currentCat = trimmed.replace(/^##\s+/, '').trim();
+    } else if (trimmed.startsWith('### ')) {
+      if (current) items.push(current);
+      current = {
+        category: currentCat,
+        title: trimmed.replace(/^###\s+/, '').trim(),
+        url: '', date: '', desc: ''
+      };
+    } else if (trimmed.startsWith('- ') && current) {
+      const m = trimmed.match(/^-\s*(URL|업데이트|설명)\s*[::]\s*(.+)$/);
+      if (m) {
+        const key = m[1], val = m[2].trim();
+        if (key === 'URL') current.url = val;
+        else if (key === '업데이트') current.date = val;
+        else if (key === '설명') current.desc = val;
+      }
+    }
+  }
+  if (current) items.push(current);
+  return items.filter(x => x.url);
+}
+
+function render() {
+  const categories = ['전체', ...new Set(allData.map(d => d.category))];
+  const chips = document.getElementById('chips');
+  chips.innerHTML = categories.map(c => {
+    const meta = c === '전체' ? { icon: 'apps', style: '' } : getCategoryMeta(c);
+    return `<button class="chip ${c === activeCategory ? 'active' : ''}" data-cat="${c}">
+      <span class="material-icons-round">${meta.icon}</span>${c}
+    </button>`;
+  }).join('');
+  chips.querySelectorAll('.chip').forEach(btn => {
+    btn.onclick = () => { activeCategory = btn.dataset.cat; render(); };
+  });
+
+  let filtered = allData;
+  if (activeCategory !== '전체') {
+    filtered = filtered.filter(d => d.category === activeCategory);
+  }
+  if (searchTerm) {
+    const q = searchTerm.toLowerCase();
+    filtered = filtered.filter(d =>
+      d.title.toLowerCase().includes(q) ||
+      d.desc.toLowerCase().includes(q) ||
+      (d.category || '').toLowerCase().includes(q)
+    );
+  }
+
+  document.getElementById('stats').textContent =
+    `총 ${filtered.length}개 대시보드` + (allData.length !== filtered.length ? ` · 전체 ${allData.length}개 중` : '');
+
+  const dates = allData.map(d => d.date).filter(Boolean).sort();
+  if (dates.length) {
+    document.getElementById('lastUpdated').textContent = `Last updated ${dates[dates.length - 1]}`;
+  }
+
+  if (!filtered.length) {
+    document.getElementById('content').innerHTML =
+      '<div class="empty"><span class="material-icons-round">search_off</span><div>검색 결과가 없습니다.</div></div>';
+    return;
+  }
+
+  const byCategory = {};
+  filtered.forEach(d => {
+    (byCategory[d.category] = byCategory[d.category] || []).push(d);
+  });
+
+  Object.keys(byCategory).forEach(cat => {
+    byCategory[cat].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  });
+
+  document.getElementById('content').innerHTML = Object.entries(byCategory).map(([cat, items]) => {
+    const catMeta = getCategoryMeta(cat);
+    return `
+      <section class="category-section">
+        <h2 class="category-title">
+          <span class="material-icons-round">${catMeta.icon}</span>
+          ${cat}
+          <span class="category-count">${items.length}</span>
+        </h2>
+        <div class="grid">
+          ${items.map(d => {
+            const m = getCategoryMeta(d.category);
+            const iconClass = m.style === 'lime' ? 'lime' : m.style === 'navy' ? 'navy' : '';
+            return `
+              <a class="inner-card" href="${d.url}" target="_blank" rel="noopener">
+                <div class="card-icon-row">
+                  <div class="card-icon ${iconClass}">
+                    <span class="material-icons-round">${m.icon}</span>
+                  </div>
+                  <div class="card-arrow-icon">
+                    <span class="material-icons-round">arrow_forward</span>
+                  </div>
+                </div>
+                <div class="card-title">${d.title}</div>
+                <div class="card-desc">${d.desc || '설명 없음'}</div>
+                <div class="card-meta">
+                  <span class="badge-glass">
+                    <span class="material-icons-round">event</span>
+                    ${d.date || '날짜 없음'}
+                  </span>
+                  <span class="card-tag">${d.category || ''}</span>
+                </div>
+              </a>
+            `;
+          }).join('')}
+        </div>
+      </section>
+    `;
+  }).join('');
+}
+
+document.getElementById('search').addEventListener('input', e => {
+  searchTerm = e.target.value;
+  render();
+});
+
+loadDashboards();
+</script>
+</body>
+</html>

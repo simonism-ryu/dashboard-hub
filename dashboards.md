@@ -51,8 +51,8 @@
 ## 생산
 
 ### 공정별 가동률
-- URL: https://simonism-ryu.github.io/
-- 업데이트: 2026-04-28
+- URL: https://simonism-ryu.github.io/PUR01/
+- 업데이트: 2026-04-29
 - 설명: 사출/도장/커팅/조립/포장 라인별 가동률 분석
 
 ## 품질

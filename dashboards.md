@@ -37,9 +37,9 @@
 - 설명: 이카운트 BOM 정전개를 원가분석 엑셀로 변환
 
 ### 원자재 단가 변화
-- URL: https://simonism-ryu.github.io/
-- 업데이트: 2026-04-28
-- 설명: 월별 단가 변화, 변동률 Top10
+- URL: https://simonism-ryu.github.io/procurementdashboard01/
+- 업데이트: 2026-04-29
+- 설명: 월별 구매액/부대비용 추이, 단가 변화, 변동률 Top10
 
 ## 자동화 도구
 

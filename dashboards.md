@@ -62,7 +62,7 @@
 
 ## 품질
 
-### 불량률·클레임 현황
-- URL: https://simonism-ryu.github.io
+### 품질 주간 대시보드
+- URL: https://simonism-ryu.github.io/quality_weekly_board1/
 - 업데이트: 2026-04-28
 - 설명: 공정별/제품별 불량률, 클레임 유형 분류

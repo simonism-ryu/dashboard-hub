@@ -30,6 +30,11 @@
 - URL: https://simonism-ryu.github.io/BCG_datasheet_01/
 - 업데이트: 2026-04-30
 - 설명: 바이어별 Sku.별 수익률, 매출액 비교
+  
+### 사전/사후 원가 비교
+- URL: https://simonism-ryu.github.io/bcg_matrix_01/
+- 업데이트: 2026-05-19
+- 설명: 사전 사후 원가 분석
  
 ### PENTA1 vs 2 원가 비교
 - URL: https://simonism-ryu.github.io/penta1vs2_dashboard_260330/

@@ -31,6 +31,11 @@
 - 업데이트: 2026-05-19
 - 설명: 사전 사후 원가 분석
  
+### 제품군 마진율 BCG 대시보드
+- URL: https://simonism-ryu.github.io/bcg_matrix_01/
+- 업데이트: 2026-05-20
+- 설명: SG 전사 품목 실적 마진율
+- 
 ### PENTA1 vs 2 원가 비교
 - URL: https://simonism-ryu.github.io/penta1vs2_dashboard_260330/
 - 업데이트: 2026-03-30

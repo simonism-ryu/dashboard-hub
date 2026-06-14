@@ -65,6 +65,11 @@
 - 업데이트: 2026-04-21
 - 설명: MES 기초등록정보를 이카운트 양식으로 자동 변환
 
+### GitHub 방문자 대시보드
+- URL: https://simonism-ryu.github.io/Repository-Traffic/
+- 업데이트: 2026-06-14
+- 설명: API 토큰을 통해 레포별 방문자 추이 집계
+
 ## 생산
 
 ### 공정별 가동률

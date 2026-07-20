@@ -40,7 +40,7 @@
 ## 원가/BOM
 
 ### SG 물량 손익 대시보드
-- URL: https://simonism-ryu.github.io/SG-Quantity-Profitability-Dashboard_v01
+- URL: https://simonism-ryu.github.io/SG-Quantity-Profitability-Dashboard_v02
 - 업데이트: 2026-07-20
 - 설명: SG 제조 BEP 대비 물량에 따른 손익 구조 분석
  
